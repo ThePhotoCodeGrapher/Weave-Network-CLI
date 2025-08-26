@@ -75,6 +75,42 @@ When `--output` is provided, the wizard writes a JSON file including:
 - `lan_speed` (gateway and DNS RTT stats, open ports tried)
 - `speedtest`, `location`, `location_top`, `location_targets`, `risk`, `summary`
 
+## Docker
+
+Build image:
+
+```bash
+docker build -t weave-network-cli:latest .
+```
+
+Run the wizard (save report locally):
+
+```bash
+# Linux: host networking gives best local LAN visibility
+# macOS/Windows: --network host is not supported the same way; container can still reach LAN via bridged networking
+
+docker run --rm \
+  --name wnc \
+  --network host \
+  -v "$PWD:/data" \
+  weave-network-cli:latest wizard --yes --extended --output /data/scan_report.json
+```
+
+Other commands:
+
+```bash
+docker run --rm --network host weave-network-cli:latest scan internal
+
+docker run --rm --network host weave-network-cli:latest scan ports --target 192.168.1.10 --top 200
+
+docker run --rm --network host weave-network-cli:latest scan cameras --subnet 192.168.1.0/24
+```
+
+Limitations in container:
+
+- `--wifi` (macOS Wi‑Fi details) will not work inside Docker.
+- Host network mode is recommended on Linux for local discovery.
+
 ## Notes
 
 - ICMP ping typically requires elevated privileges. This tool uses fast TCP connect checks to infer live hosts.

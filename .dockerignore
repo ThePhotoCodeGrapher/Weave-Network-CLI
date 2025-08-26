@@ -1,0 +1,20 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Environments
+.venv/
+.env
+venv/
+
+# OS
+.DS_Store
+
+# Project artifacts
+scan_report.json
+*.log
