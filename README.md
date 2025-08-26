@@ -111,6 +111,62 @@ Limitations in container:
 - `--wifi` (macOS Wi‑Fi details) will not work inside Docker.
 - Host network mode is recommended on Linux for local discovery.
 
+## npm (Node wrapper)
+
+You can use an npm wrapper to invoke WNC without installing Python. It prefers Docker (and falls back to local Python if available).
+
+Run via npx:
+
+```bash
+npx @thephotocodegrapher/wnc wizard --yes --extended --output ./scan_report.json
+```
+
+Or install globally:
+
+```bash
+npm i -g @thephotocodegrapher/wnc
+wnc wizard --yes --extended --output ./scan_report.json
+```
+
+Notes:
+
+- Requires Docker for best experience; on Linux, host networking is used automatically when available.
+- On macOS/Windows, Docker networking differs; discovery still works via bridged networking.
+
+## Python API
+
+Use WNC programmatically without packaging to PyPI. Import sync helpers from `wnc`:
+
+```python
+from wnc import internal_subnets, hosts, ports, cameras, wizard
+
+subs = internal_subnets()
+print("Subnets:", subs)
+
+if subs:
+    live = hosts(subnet=subs[0])
+    print("Live hosts:", live[:10])
+
+    if live:
+        open_ports = ports(live[0], top_n=100)
+        print("Open ports:", [(r.port, r.service) for r in open_ports])
+
+    cams = cameras(subs[0])
+    for c in cams[:5]:
+        print("Camera:", c.ip, c.vendor, c.evidence[:3])
+
+# Run the interactive wizard non-interactively and save a JSON report
+wizard(yes=True, extended=True, output="scan_report.json")
+```
+
+Available helpers in `wnc`:
+
+- `internal_subnets() -> List[str]`
+- `hosts(subnet, limit=None) -> List[str]`
+- `ports(host, top_n=200, ports=None) -> List[PortResult]`
+- `cameras(subnet) -> List[CameraCandidate]`
+- `wizard(...same flags as CLI...) -> None`
+
 ## Notes
 
 - ICMP ping typically requires elevated privileges. This tool uses fast TCP connect checks to infer live hosts.

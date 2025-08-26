@@ -1,0 +1,40 @@
+{
+  "name": "@thephotocodegrapher/wnc",
+  "version": "1.1.0",
+  "description": "Node wrapper for Weave Network CLI (WNC) to run via Docker or local Python",
+  "bin": {
+    "wnc": "bin/wnc"
+  },
+  "keywords": [
+    "weave",
+    "wnc",
+    "network",
+    "scanner",
+    "security",
+    "cli",
+    "docker",
+    "python"
+  ],
+  "author": "Kai Gartner",
+  "license": "SEE LICENSE IN ../../LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThePhotoCodeGrapher/Weave-Network-CLI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ThePhotoCodeGrapher/Weave-Network-CLI/issues"
+  },
+  "homepage": "https://github.com/ThePhotoCodeGrapher/Weave-Network-CLI#readme",
+  "readme": "README.md",
+  "files": [
+    "bin/wnc",
+    "README.md",
+    "package.json"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
